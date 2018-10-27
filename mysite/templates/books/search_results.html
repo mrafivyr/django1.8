@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Search</title>
+</head>
+    <body>
+        <p>You searched for: <strong>{{ query }}</strong></p>
+
+        {% if books %}
+            <p>Found {{ books|length }} book{{ books|pluralize }}</p>
+            <ul>
+                {% for book in books %}
+                    <li>{{ book.title }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No books matched your search criteria.</p>
+        {% endif %}
+
+        {{ sql_queries }}
+
+        {% for sql in sql_queries %}
+            {{ sql }}
+        {% endfor %}
+
+        <br/>
+
+        {{ request.GET }}
+
+        {% for req in request.GET %}
+            {{ req }}
+        {% endfor %}
+
+        <br/>
+        <!-- Custom context processor variable -->
+        {{ GLOBAL_VAR|safe }}
+        <!-- By default in Django, every template automatically escapes the output of every variable tag.
+        Specifically, these five characters are escaped: < > " ' &-->
+        <!-- This auto escape can be turned OFF by passing it to a safe filter -->
+        {% load review_extras %}
+         <br/>  <br/>
+        <i>{{ '<p>01111234</p>'|cut:'0'|mmm|safe }} </i>
+    </body>
+</html>

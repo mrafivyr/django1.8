@@ -1,0 +1,42 @@
+{% extends 'template.html' %}
+{% block title %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Ordering notice</title>
+    </head>
+{% endblock %}
+
+{% block content %}
+    <h1>Ordering notice</h1>
+    <p>Dear {{ person_name }},</p>
+
+    <p>Thanks for placing an order from {{ company }}. It's scheduled to ship on {{ ship_date|date:"F j, Y"}}</p>
+
+    <p>Here are the items you've ordered:</p>
+{% endblock %}
+
+{% comment %}
+    If you don't define any specific block in child then it will take value of parent block
+    Suppose if block footer is removed from child, then it will take footer block of parent template.
+        In this case it is "Data of parent template" defined in p tag
+    If block is defined in child and not available in parent then no content will be shown
+    Suppose if block footer is defined here in child and removed from parent template.html.
+        In this case no data will be shown as there no such block available in parent template that is extended.
+{% endcomment %}
+{% block footer %}
+    <ul>
+        {% for item in item_list %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if ordered_warranty %}
+        <p>your warranty information will be included in the packaging</p>
+    {% else %}
+        <p>You didn't order a warranty, so you're on your own when the products inevitably stop working</p>
+    {% endif %}
+
+    <p>Sincerely,<br/>{{ company }}</p>
+
+    {{ block.super }}
+{% endblock %}
